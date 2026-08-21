@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="GameFinder - Encontre informações sobre seus jogos favoritos."
+    >
+
+    <title>GameFinder | Catálogo de Jogos</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- ==========================================
+         HEADER
+    =========================================== -->
+
+    <header class="header">
+
+        <div class="header-container">
+
+            <a
+                href="#inicio"
+                class="logo"
+            >
+                <span class="logo-icon">🎮</span>
+                <span>GameFinder</span>
+            </a>
+
+
+            <nav class="navigation">
+
+                <a
+                    href="#inicio"
+                    class="nav-link active"
+                >
+                    Início
+                </a>
+
+                <a
+                    href="#populares"
+                    class="nav-link"
+                >
+                    Populares
+                </a>
+
+                <a
+                    href="#lancamentos"
+                    class="nav-link"
+                >
+                    Lançamentos
+                </a>
+
+                <a
+                    href="#favoritos"
+                    class="nav-link"
+                >
+                    ❤️ Favoritos
+                </a>
+
+            </nav>
+
+
+            <button
+                class="mobile-menu-button"
+                id="mobileMenuButton"
+                type="button"
+                aria-label="Abrir menu"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ==========================================
+         CONTEÚDO PRINCIPAL
+    =========================================== -->
+
+    <main id="inicio">
+
+
+        <!-- ======================================
+             HERO
+        ======================================= -->
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <span class="hero-tag">
+                    🎮 CATÁLOGO DE JOGOS
+                </span>
+
+
+                <h1>
+                    Encontre seu próximo
+                    <span>jogo favorito.</span>
+                </h1>
+
+
+                <p>
+                    Pesquise milhares de jogos, descubra
+                    novos títulos e encontre informações
+                    sobre suas aventuras favoritas.
+                </p>
+
+
+                <!-- PESQUISA -->
+
+                <form
+                    class="search-form"
+                    id="searchForm"
+                >
+
+                    <div class="search-input-container">
+
+                        <span class="search-icon">
+                            🔎
+                        </span>
+
+                        <input
+                            type="search"
+                            id="searchInput"
+                            placeholder="Digite o nome de um jogo..."
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <button
+                        class="search-button"
+                        type="submit"
+                    >
+                        Buscar
+                    </button>
+
+                </form>
+
+
+                <div
+                    class="search-message"
+                    id="searchMessage"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ======================================
+             FILTROS
+        ======================================= -->
+
+        <section class="filters-section">
+
+            <div class="filters-container">
+
+
+                <div class="filter-group">
+
+                    <label for="platformFilter">
+                        Plataforma
+                    </label>
+
+                    <select id="platformFilter">
+
+                        <option value="all">
+                            Todas
+                        </option>
+
+                        <option value="pc">
+                            PC
+                        </option>
+
+                        <option value="playstation">
+                            PlayStation
+                        </option>
+
+                        <option value="xbox">
+                            Xbox
+                        </option>
+
+                        <option value="nintendo">
+                            Nintendo
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="filter-group">
+
+                    <label for="genreFilter">
+                        Gênero
+                    </label>
+
+                    <select id="genreFilter">
+
+                        <option value="all">
+                            Todos
+                        </option>
+
+                        <option value="action">
+                            Ação
+                        </option>
+
+                        <option value="adventure">
+                            Aventura
+                        </option>
+
+                        <option value="rpg">
+                            RPG
+                        </option>
+
+                        <option value="strategy">
+                            Estratégia
+                        </option>
+
+                        <option value="sports">
+                            Esportes
+                        </option>
+
+                        <option value="racing">
+                            Corrida
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="filter-group">
+
+                    <label for="sortFilter">
+                        Ordenar por
+                    </label>
+
+                    <select id="sortFilter">
+
+                        <option value="popular">
+                            Mais populares
+                        </option>
+
+                        <option value="rating">
+                            Melhor avaliados
+                        </option>
+
+                        <option value="newest">
+                            Mais recentes
+                        </option>
+
+                        <option value="oldest">
+                            Mais antigos
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ======================================
+             RESULTADOS DA PESQUISA
+        ======================================= -->
+
+        <section
+            class="games-section search-results-section"
+            id="searchResultsSection"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-tag">
+                        RESULTADOS
+                    </span>
+
+                    <h2 id="searchResultsTitle">
+                        Resultados da pesquisa
+                    </h2>
+
+                </div>
+
+
+                <span
+                    class="results-count"
+                    id="resultsCount"
+                >
+                    0 jogos
+                </span>
+
+            </div>
+
+
+            <div
+                class="games-grid"
+                id="searchResultsGrid"
+            >
+
+                <!--
+                    Os cards serão criados
+                    pelo JavaScript.
+                -->
+
+            </div>
+
+
+            <div
+                class="empty-state"
+                id="searchEmptyState"
+            >
+
+                <div class="empty-icon">
+                    🔎
+                </div>
+
+                <h3>
+                    Nenhum jogo encontrado
+                </h3>
+
+                <p>
+                    Tente pesquisar por outro nome.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ======================================
+             JOGOS POPULARES
+        ======================================= -->
+
+        <section
+            class="games-section"
+            id="populares"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-tag">
+                        🔥 EM ALTA
+                    </span>
+
+                    <h2>
+                        Jogos populares
+                    </h2>
+
+                </div>
+
+
+                <button
+                    class="see-all-button"
+                    id="seePopularButton"
+                    type="button"
+                >
+                    Ver todos →
+                </button>
+
+            </div>
+
+
+            <div
+                class="games-grid"
+                id="popularGamesGrid"
+            >
+
+                <!-- Cards criados pelo JavaScript -->
+
+            </div>
+
+
+            <!-- LOADING -->
+
+            <div
+                class="loading"
+                id="popularLoading"
+            >
+
+                <div class="spinner"></div>
+
+                <p>
+                    Carregando jogos...
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ======================================
+             LANÇAMENTOS
+        ======================================= -->
+
+        <section
+            class="games-section"
+            id="lancamentos"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-tag">
+                        🆕 NOVIDADES
+                    </span>
+
+                    <h2>
+                        Lançamentos
+                    </h2>
+
+                </div>
+
+
+                <button
+                    class="see-all-button"
+                    id="seeNewestButton"
+                    type="button"
+                >
+                    Ver todos →
+                </button>
+
+            </div>
+
+
+            <div
+                class="games-grid"
+                id="newGamesGrid"
+            >
+
+                <!-- Cards criados pelo JavaScript -->
+
+            </div>
+
+
+            <!-- LOADING -->
+
+            <div
+                class="loading"
+                id="newGamesLoading"
+            >
+
+                <div class="spinner"></div>
+
+                <p>
+                    Carregando lançamentos...
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ======================================
+             MAIS BEM AVALIADOS
+        ======================================= -->
+
+        <section class="games-section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-tag">
+                        ⭐ DESTAQUES
+                    </span>
+
+                    <h2>
+                        Mais bem avaliados
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="games-grid"
+                id="topRatedGamesGrid"
+            >
+
+                <!-- Cards criados pelo JavaScript -->
+
+            </div>
+
+
+            <div
+                class="loading"
+                id="topRatedLoading"
+            >
+
+                <div class="spinner"></div>
+
+                <p>
+                    Carregando jogos...
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ======================================
+             FAVORITOS
+        ======================================= -->
+
+        <section
+            class="games-section favorites-section"
+            id="favoritos"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-tag">
+                        ❤️ SUA COLEÇÃO
+                    </span>
+
+                    <h2>
+                        Meus favoritos
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="games-grid"
+                id="favoritesGrid"
+            >
+
+                <!--
+                    Favoritos serão carregados
+                    pelo localStorage.
+                -->
+
+            </div>
+
+
+            <div
+                class="empty-state"
+                id="favoritesEmptyState"
+            >
+
+                <div class="empty-icon">
+                    ❤️
+                </div>
+
+                <h3>
+                    Você ainda não possui favoritos
+                </h3>
+
+                <p>
+                    Clique no ❤️ de um jogo para
+                    adicioná-lo à sua coleção.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+    </main>
+
+
+
+    <!-- ==========================================
+         MODAL DE DETALHES
+    =========================================== -->
+
+    <div
+        class="modal"
+        id="gameModal"
+        aria-hidden="true"
+    >
+
+        <div
+            class="modal-overlay"
+            id="modalOverlay"
+        ></div>
+
+
+        <div
+            class="modal-content"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modalGameName"
+        >
+
+
+            <!-- BOTÃO FECHAR -->
+
+            <button
+                class="modal-close"
+                id="modalClose"
+                type="button"
+                aria-label="Fechar"
+            >
+                ×
+            </button>
+
+
+
+            <!-- CAPA -->
+
+            <div class="modal-image-container">
+
+                <img
+                    id="modalGameImage"
+                    src=""
+                    alt=""
+                >
+
+            </div>
+
+
+
+            <!-- INFORMAÇÕES -->
+
+            <div class="modal-info">
+
+                <span
+                    class="modal-genre"
+                    id="modalGameGenre"
+                >
+                    RPG
+                </span>
+
+
+                <h2 id="modalGameName">
+                    Nome do jogo
+                </h2>
+
+
+                <div class="modal-meta">
+
+                    <span id="modalGameRating">
+                        ⭐ 0.0
+                    </span>
+
+                    <span id="modalGameRelease">
+                        📅 00/00/0000
+                    </span>
+
+                </div>
+
+
+                <div class="modal-platforms">
+
+                    <strong>
+                        Plataformas:
+                    </strong>
+
+                    <div
+                        id="modalGamePlatforms"
+                        class="platform-list"
+                    ></div>
+
+                </div>
+
+
+                <div class="modal-description">
+
+                    <h3>
+                        Sobre o jogo
+                    </h3>
+
+                    <p id="modalGameDescription">
+                        Descrição do jogo.
+                    </p>
+
+                </div>
+
+
+                <div class="modal-developer">
+
+                    <span>
+                        Desenvolvedora
+                    </span>
+
+                    <strong id="modalGameDeveloper">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        class="favorite-modal-button"
+                        id="favoriteModalButton"
+                        type="button"
+                    >
+                        ❤️ Adicionar aos favoritos
+                    </button>
+
+
+                    <a
+                        href="#"
+                        class="official-site-button"
+                        id="officialSiteButton"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        🌐 Site oficial
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==========================================
+         NOTIFICAÇÃO
+    =========================================== -->
+
+    <div
+        class="toast"
+        id="toast"
+        role="status"
+    >
+
+        <span id="toastMessage">
+            Jogo adicionado aos favoritos!
+        </span>
+
+    </div>
+
+
+
+    <!-- ==========================================
+         FOOTER
+    =========================================== -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-logo">
+
+                <span class="logo-icon">
+                    🎮
+                </span>
+
+                <strong>
+                    GameFinder
+                </strong>
+
+            </div>
+
+
+            <p>
+                Um catálogo de jogos desenvolvido
+                com HTML, CSS e JavaScript.
+            </p>
+
+
+            <p class="footer-copy">
+                © 2026 GameFinder
+            </p>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- ==========================================
+         JAVASCRIPT
+    =========================================== -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

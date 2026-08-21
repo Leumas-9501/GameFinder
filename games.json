@@ -1,0 +1,156 @@
+[
+    {
+        "id": 1,
+        "name": "The Witcher 3: Wild Hunt",
+        "rating": 9.4,
+        "releaseDate": "2015-05-19",
+        "genres": [
+            "RPG",
+            "Aventura"
+        ],
+        "platforms": [
+            "PC",
+            "PlayStation",
+            "Xbox",
+            "Nintendo Switch"
+        ],
+        "developer": "CD PROJEKT RED",
+        "image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800",
+        "description": "The Witcher 3: Wild Hunt é um RPG de mundo aberto que acompanha Geralt de Rívia em uma jornada em busca de sua filha adotiva, enfrentando monstros, guerras e escolhas que podem alterar o destino do mundo.",
+        "website": "https://www.thewitcher.com/"
+    },
+    {
+        "id": 2,
+        "name": "Elden Ring",
+        "rating": 9.5,
+        "releaseDate": "2022-02-25",
+        "genres": [
+            "RPG",
+            "Ação"
+        ],
+        "platforms": [
+            "PC",
+            "PlayStation",
+            "Xbox"
+        ],
+        "developer": "FromSoftware",
+        "image": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800",
+        "description": "Elden Ring é um RPG de ação em um enorme mundo de fantasia. Explore regiões misteriosas, enfrente criaturas poderosas e descubra os segredos das Terras Intermédias.",
+        "website": "https://en.bandainamcoent.eu/elden-ring/elden-ring"
+    },
+    {
+        "id": 3,
+        "name": "Red Dead Redemption 2",
+        "rating": 9.7,
+        "releaseDate": "2018-10-26",
+        "genres": [
+            "Ação",
+            "Aventura"
+        ],
+        "platforms": [
+            "PC",
+            "PlayStation",
+            "Xbox"
+        ],
+        "developer": "Rockstar Games",
+        "image": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800",
+        "description": "Uma aventura épica no Velho Oeste americano. Acompanhe Arthur Morgan e a gangue Van der Linde enquanto tentam sobreviver em um mundo que está mudando rapidamente.",
+        "website": "https://www.rockstargames.com/reddeadredemption2"
+    },
+    {
+        "id": 4,
+        "name": "Minecraft",
+        "rating": 9.0,
+        "releaseDate": "2011-11-18",
+        "genres": [
+            "Aventura",
+            "Estratégia"
+        ],
+        "platforms": [
+            "PC",
+            "PlayStation",
+            "Xbox",
+            "Nintendo Switch"
+        ],
+        "developer": "Mojang Studios",
+        "image": "https://images.unsplash.com/photo-1607513746994-51f730a44832?w=800",
+        "description": "Explore mundos gerados proceduralmente, construa estruturas, enfrente criaturas e crie suas próprias aventuras em um dos jogos mais populares de todos os tempos.",
+        "website": "https://www.minecraft.net/"
+    },
+    {
+        "id": 5,
+        "name": "Cyberpunk 2077",
+        "rating": 8.8,
+        "releaseDate": "2020-12-10",
+        "genres": [
+            "RPG",
+            "Ação"
+        ],
+        "platforms": [
+            "PC",
+            "PlayStation",
+            "Xbox"
+        ],
+        "developer": "CD PROJEKT RED",
+        "image": "https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=800",
+        "description": "Entre em Night City, uma metrópole futurista dominada por tecnologia, corporações e conflitos. Crie seu personagem e escolha seu próprio caminho.",
+        "website": "https://www.cyberpunk.net/"
+    },
+    {
+        "id": 6,
+        "name": "God of War",
+        "rating": 9.2,
+        "releaseDate": "2018-04-20",
+        "genres": [
+            "Ação",
+            "Aventura"
+        ],
+        "platforms": [
+            "PC",
+            "PlayStation"
+        ],
+        "developer": "Santa Monica Studio",
+        "image": "https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=800",
+        "description": "Kratos agora vive entre os deuses e monstros da mitologia nórdica. Ao lado de seu filho Atreus, ele embarca em uma jornada que mudará suas vidas.",
+        "website": "https://www.playstation.com/games/god-of-war/"
+    },
+    {
+        "id": 7,
+        "name": "Grand Theft Auto V",
+        "rating": 9.1,
+        "releaseDate": "2013-09-17",
+        "genres": [
+            "Ação",
+            "Aventura"
+        ],
+        "platforms": [
+            "PC",
+            "PlayStation",
+            "Xbox"
+        ],
+        "developer": "Rockstar Games",
+        "image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800",
+        "description": "Explore Los Santos através das histórias de três criminosos diferentes. O jogo combina ação, aventura e um enorme mundo aberto.",
+        "website": "https://www.rockstargames.com/gta-v"
+    },
+    {
+        "id": 8,
+        "name": "Hades",
+        "rating": 9.0,
+        "releaseDate": "2020-09-17",
+        "genres": [
+            "Ação",
+            "RPG"
+        ],
+        "platforms": [
+            "PC",
+            "PlayStation",
+            "Xbox",
+            "Nintendo Switch"
+        ],
+        "developer": "Supergiant Games",
+        "image": "https://images.unsplash.com/photo-1556438064-2d7646166914?w=800",
+        "description": "Lute para escapar do submundo grego neste premiado roguelike de ação. Cada tentativa apresenta novos desafios, poderes e histórias.",
+        "website": "https://www.supergiantgames.com/games/hades/"
+    }
+]
