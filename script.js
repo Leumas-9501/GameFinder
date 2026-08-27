@@ -5,12 +5,124 @@
 
 
 // ==========================================
+// INICIALIZAÇÃO
+// ==========================================
+
+async function initializeApplication() {
+
+    try {
+
+        // ======================================
+        // JOGOS POPULARES
+        // ======================================
+
+        showLoading(
+            popularLoading
+        );
+
+
+        const rawgPopular =
+            await getPopularGames();
+
+
+        games =
+            adaptGames(rawgPopular);
+
+        cacheGames(games);
+        
+        renderGames(
+            games.slice(0, 4),
+            popularGamesGrid
+        );
+
+
+        hideLoading(
+            popularLoading
+        );
+
+
+        // ======================================
+        // LANÇAMENTOS
+        // ======================================
+
+        await loadNewestGames();
+
+
+        // ======================================
+        // MAIS BEM AVALIADOS
+        // ======================================
+
+        await loadTopRatedGames();
+
+
+        // ======================================
+        // FAVORITOS
+        // ======================================
+
+        loadFavorites();
+
+
+        console.log(
+            "GameHub inicializado:",
+            games
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Erro ao inicializar o GameHub:",
+            error
+        );
+
+    }
+
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        initializeApplication();
+
+    }
+);
+
+
+// ==========================================
 // DADOS DOS JOGOS
 // ==========================================
 
 let games = [];
 
+let gameCache = [];
 
+function cacheGames(gamesList) {
+
+    if (!gamesList || gamesList.length === 0) {
+        return;
+    }
+
+
+    gamesList.forEach(
+        (game) => {
+
+            const existingGame =
+                gameCache.find(
+                    cachedGame =>
+                        cachedGame.id === game.id
+                );
+
+
+            if (!existingGame) {
+
+                gameCache.push(game);
+
+            }
+
+        }
+    );
+
+}
 
 // ==========================================
 // ELEMENTOS DO DOM
@@ -208,78 +320,6 @@ let favorites =
 
 
 // ==========================================
-// CARREGAR JSON
-// ==========================================
-
-async function loadGamesFromJSON() {
-
-    try {
-
-        const response =
-            await fetch("games.json");
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Não foi possível carregar o arquivo games.json."
-            );
-
-        }
-
-
-        games =
-            await response.json();
-
-
-        console.log(
-            "Jogos carregados:",
-            games
-        );
-
-
-        initializeApplication();
-
-
-    } catch (error) {
-
-        console.error(
-            "Erro ao carregar os jogos:",
-            error
-        );
-
-    }
-
-}
-
-// ==========================================
-// INICIALIZAÇÃO
-// ==========================================
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        loadGamesFromJSON();
-
-    }
-);
-
-
-function initializeApplication() {
-
-    loadPopularGames();
-
-    loadNewestGames();
-
-    loadTopRatedGames();
-
-    loadFavorites();
-
-}
-
-
-// ==========================================
 // CRIAR CARD
 // ==========================================
 
@@ -319,6 +359,7 @@ function createGameCard(game) {
                 src="${game.image}"
                 alt="Capa de ${game.name}"
                 loading="lazy"
+                onerror="this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22450%22 viewBox=%220 0 800 450%22%3E%3Crect width=%22800%22 height=%22450%22 fill=%22%23151a26%22/%3E%3Ctext x=%22400%22 y=%22225%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 fill=%22%23ffffff%22 font-family=%22Arial%22 font-size=%2228%22%3EImagem indisponível%3C/text%3E%3C/svg%3E';"
             >
 
             <span class="game-rating">
@@ -415,76 +456,34 @@ function renderGames(
 
 
 // ==========================================
-// JOGOS POPULARES
-// ==========================================
-
-function loadPopularGames() {
-
-    showLoading(
-        popularLoading
-    );
-
-
-    setTimeout(() => {
-
-        const popularGames =
-            [...games]
-                .sort(
-                    (a, b) =>
-                        b.rating - a.rating
-                )
-                .slice(0, 4);
-
-
-        renderGames(
-            popularGames,
-            popularGamesGrid
-        );
-
-
-        hideLoading(
-            popularLoading
-        );
-
-    }, 500);
-
-}
-
-
-// ==========================================
 // LANÇAMENTOS
 // ==========================================
 
-function loadNewestGames() {
+async function loadNewestGames() {
 
     showLoading(
         newGamesLoading
     );
 
 
-    setTimeout(() => {
-
-        const newestGames =
-            [...games]
-                .sort(
-                    (a, b) =>
-                        new Date(b.releaseDate) -
-                        new Date(a.releaseDate)
-                )
-                .slice(0, 4);
+    const rawgGames =
+        await getNewestGames();
 
 
-        renderGames(
-            newestGames,
-            newGamesGrid
-        );
+    const newestGames =
+        adaptGames(rawgGames);
+
+    cacheGames(newestGames);
+
+    renderGames(
+        newestGames.slice(0, 4),
+        newGamesGrid
+    );
 
 
-        hideLoading(
-            newGamesLoading
-        );
-
-    }, 700);
+    hideLoading(
+        newGamesLoading
+    );
 
 }
 
@@ -493,55 +492,104 @@ function loadNewestGames() {
 // MAIS BEM AVALIADOS
 // ==========================================
 
-function loadTopRatedGames() {
+async function loadTopRatedGames() {
 
     showLoading(
         topRatedLoading
     );
 
 
-    setTimeout(() => {
-
-        const topGames =
-            [...games]
-                .sort(
-                    (a, b) =>
-                        b.rating - a.rating
-                )
-                .slice(0, 4);
+    const rawgGames =
+        await getTopRatedGames();
 
 
-        renderGames(
-            topGames,
-            topRatedGamesGrid
-        );
+    const topGames =
+        adaptGames(rawgGames);
+
+    cacheGames(topGames);
+
+    renderGames(
+        topGames.slice(0, 4),
+        topRatedGamesGrid
+    );
 
 
-        hideLoading(
-            topRatedLoading
-        );
-
-    }, 900);
+    hideLoading(
+        topRatedLoading
+    );
 
 }
 
 
 // ==========================================
-// PESQUISA
+// CARREGAR FAVORITOS
+// ==========================================
+
+function loadFavorites() {
+
+    const favoriteGames =
+        gameCache.filter(
+            (game) =>
+                favorites.includes(
+                    game.id
+                )
+        );
+
+
+    renderGames(
+        favoriteGames,
+        favoritesGrid
+    );
+
+
+    if (
+        favoriteGames.length === 0
+    ) {
+
+        favoritesEmptyState.style.display =
+            "block";
+
+    } else {
+
+        favoritesEmptyState.style.display =
+            "none";
+
+    }
+
+}
+
+// ==========================================
+// SALVAR FAVORITOS
+// ==========================================
+
+function saveFavorites() {
+
+    localStorage.setItem(
+        "gamefinder-favorites",
+        JSON.stringify(favorites)
+    );
+
+}
+
+
+// ==========================================
+// PESQUISA NA API RAWG
 // ==========================================
 
 searchForm.addEventListener(
     "submit",
-    (event) => {
+    async (event) => {
 
         event.preventDefault();
 
 
         const query =
-            searchInput.value
-                .trim()
-                .toLowerCase();
+            searchInput.value.trim();
 
+
+        // --------------------------------------
+        // VERIFICAR PESQUISA VAZIA
+        // --------------------------------------
 
         if (!query) {
 
@@ -554,40 +602,82 @@ searchForm.addEventListener(
         }
 
 
+        // --------------------------------------
+        // LIMPAR MENSAGEM
+        // --------------------------------------
+
+        showSearchMessage(
+            "🔎 Procurando jogos..."
+        );
+
+
+        // --------------------------------------
+        // MOSTRAR RESULTADOS
+        // --------------------------------------
+
+        searchResultsSection
+            .classList
+            .add("visible");
+
+
+        searchResultsTitle.textContent =
+            `Resultados para "${query}"`;
+
+
+        resultsCount.textContent =
+            "Carregando...";
+
+
+        searchEmptyState.style.display =
+            "none";
+
+
+        searchResultsGrid.innerHTML = `
+            
+            <div class="loading">
+
+                <div class="spinner"></div>
+
+                <p>
+                    Buscando jogos...
+                </p>
+
+            </div>
+
+        `;
+
+
+        // --------------------------------------
+        // BUSCAR NA RAWG
+        // --------------------------------------
+
+        const rawgResults =
+            await searchGames(query);
+
+
+        // --------------------------------------
+        // ADAPTAR RESULTADOS
+        // --------------------------------------
+
         const results =
-            games.filter(
-                (game) => {
+            adaptGames(rawgResults);
 
-                    const name =
-                        game.name
-                            .toLowerCase();
+        cacheGames(results);
 
-                    const genres =
-                        game.genres
-                            .join(" ")
-                            .toLowerCase();
-
-                    return (
-                        name.includes(query) ||
-                        genres.includes(query)
-                    );
-
-                }
-            );
-
+        // --------------------------------------
+        // MOSTRAR RESULTADOS
+        // --------------------------------------
 
         displaySearchResults(
             results,
             query
         );
 
+
+        showSearchMessage("");
+
     }
 );
-
-
-// ==========================================
-// MOSTRAR RESULTADOS
-// ==========================================
 
 function displaySearchResults(
     results,
@@ -632,7 +722,8 @@ function displaySearchResults(
 
     searchResultsSection
         .scrollIntoView({
-            behavior: "smooth"
+            behavior: "smooth",
+            block: "start"
         });
 
 }
@@ -941,20 +1032,6 @@ function toggleFavorite(
 
 
 // ==========================================
-// SALVAR FAVORITOS
-// ==========================================
-
-function saveFavorites() {
-
-    localStorage.setItem(
-        "gamefinder-favorites",
-        JSON.stringify(favorites)
-    );
-
-}
-
-
-// ==========================================
 // ATUALIZAR BOTÕES
 // ==========================================
 
@@ -997,173 +1074,16 @@ function refreshFavoriteButtons() {
 
 
 // ==========================================
-// CARREGAR FAVORITOS
+// ABRIR MODAL DE DETALHES
 // ==========================================
 
-function loadFavorites() {
-
-    const favoriteGames =
-        games.filter(
-            (game) =>
-                favorites.includes(
-                    game.id
-                )
-        );
-
-
-    renderGames(
-        favoriteGames,
-        favoritesGrid
-    );
-
-
-    if (
-        favoriteGames.length === 0
-    ) {
-
-        favoritesEmptyState.style.display =
-            "block";
-
-    } else {
-
-        favoritesEmptyState.style.display =
-            "none";
-
-    }
-
-}
-
-
-// ==========================================
-// MODAL
-// ==========================================
-
-function openGameModal(
-    gameId
-) {
-
-    const game =
-        games.find(
-            (item) =>
-                item.id === gameId
-        );
-
-
-    if (!game) {
-        return;
-    }
-
-
-    currentGameId =
-        game.id;
-
+async function openGameModal(gameId) {
 
     // --------------------------------------
-    // IMAGEM
+    // DEFINIR JOGO ATUAL
     // --------------------------------------
 
-    modalGameImage.src =
-        game.image;
-
-    modalGameImage.alt =
-        `Capa de ${game.name}`;
-
-
-    // --------------------------------------
-    // NOME
-    // --------------------------------------
-
-    modalGameName.textContent =
-        game.name;
-
-
-    // --------------------------------------
-    // GÊNERO
-    // --------------------------------------
-
-    modalGameGenre.textContent =
-        game.genres.join(" • ");
-
-
-    // --------------------------------------
-    // NOTA
-    // --------------------------------------
-
-    modalGameRating.textContent =
-        `⭐ ${game.rating}`;
-
-
-    // --------------------------------------
-    // DATA
-    // --------------------------------------
-
-    modalGameRelease.textContent =
-        `📅 ${formatDate(
-            game.releaseDate
-        )}`;
-
-
-    // --------------------------------------
-    // PLATAFORMAS
-    // --------------------------------------
-
-    modalGamePlatforms.innerHTML =
-        "";
-
-
-    game.platforms.forEach(
-        (platform) => {
-
-            const tag =
-                document.createElement(
-                    "span"
-                );
-
-
-            tag.className =
-                "platform-tag";
-
-
-            tag.textContent =
-                platform;
-
-
-            modalGamePlatforms
-                .appendChild(tag);
-
-        }
-    );
-
-
-    // --------------------------------------
-    // DESCRIÇÃO
-    // --------------------------------------
-
-    modalGameDescription.textContent =
-        game.description;
-
-
-    // --------------------------------------
-    // DESENVOLVEDORA
-    // --------------------------------------
-
-    modalGameDeveloper.textContent =
-        game.developer;
-
-
-    // --------------------------------------
-    // SITE OFICIAL
-    // --------------------------------------
-
-    officialSiteButton.href =
-        game.website;
-
-
-    // --------------------------------------
-    // BOTÃO FAVORITO
-    // --------------------------------------
-
-    updateModalFavoriteButton();
+    currentGameId = gameId;
 
 
     // --------------------------------------
@@ -1182,6 +1102,243 @@ function openGameModal(
 
     document.body.style.overflow =
         "hidden";
+
+
+    // --------------------------------------
+    // ESTADO DE CARREGAMENTO
+    // --------------------------------------
+
+    modalGameImage.src = "";
+
+    modalGameImage.alt = "";
+
+    modalGameName.textContent =
+        "Carregando...";
+
+    modalGameGenre.textContent =
+        "CARREGANDO";
+
+    modalGameRating.textContent =
+        "⭐ --";
+
+    modalGameRelease.textContent =
+        "📅 --";
+
+    modalGamePlatforms.innerHTML =
+        "";
+
+    modalGameDescription.textContent =
+        "Buscando informações do jogo...";
+
+    modalGameDeveloper.textContent =
+        "Carregando...";
+
+    officialSiteButton.href =
+        "#";
+
+
+    // --------------------------------------
+    // BUSCAR DADOS COMPLETOS NA RAWG
+    // --------------------------------------
+
+    const game =
+        await getGameDetails(
+            gameId
+        );
+
+
+    // --------------------------------------
+    // VERIFICAR ERRO
+    // --------------------------------------
+
+    if (!game) {
+
+        modalGameName.textContent =
+            "Não foi possível carregar";
+
+        modalGameDescription.textContent =
+            "Ocorreu um erro ao buscar as informações deste jogo.";
+
+        modalGameDeveloper.textContent =
+            "Não informado";
+
+        return;
+
+    }
+
+    const adaptedGame =
+    adaptGame(game);
+
+    cacheGames([adaptedGame]);
+
+
+    // --------------------------------------
+    // IMAGEM
+    // --------------------------------------
+
+    modalGameImage.src =
+        game.background_image ||
+        "";
+
+    modalGameImage.alt =
+        `Capa de ${game.name}`;
+
+
+    // --------------------------------------
+    // NOME
+    // --------------------------------------
+
+    modalGameName.textContent =
+        game.name ||
+        "Nome não informado";
+
+
+    // --------------------------------------
+    // GÊNEROS
+    // --------------------------------------
+
+    modalGameGenre.textContent =
+        game.genres &&
+        game.genres.length > 0
+
+            ? game.genres
+                .map(
+                    genre =>
+                        genre.name
+                )
+                .join(" • ")
+
+            : "Gênero não informado";
+
+
+    // --------------------------------------
+    // NOTA
+    // --------------------------------------
+
+    modalGameRating.textContent =
+        `⭐ ${
+            game.rating ??
+            "N/A"
+        }`;
+
+
+    // --------------------------------------
+    // DATA
+    // --------------------------------------
+
+    modalGameRelease.textContent =
+        `📅 ${
+            formatDate(
+                game.released
+            )
+        }`;
+
+
+    // --------------------------------------
+    // PLATAFORMAS
+    // --------------------------------------
+
+    modalGamePlatforms.innerHTML =
+        "";
+
+
+    if (
+        game.platforms &&
+        game.platforms.length > 0
+    ) {
+
+        game.platforms.forEach(
+            (platformData) => {
+
+                const tag =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                tag.className =
+                    "platform-tag";
+
+
+                tag.textContent =
+                    platformData.platform.name;
+
+
+                modalGamePlatforms
+                    .appendChild(tag);
+
+            }
+        );
+
+    } else {
+
+        modalGamePlatforms.innerHTML = `
+            
+            <span class="platform-tag">
+                Não informado
+            </span>
+
+        `;
+
+    }
+
+
+    // --------------------------------------
+    // DESCRIÇÃO
+    // --------------------------------------
+
+    modalGameDescription.textContent =
+        game.description_raw ||
+        "Descrição não disponível.";
+
+
+    // --------------------------------------
+    // DESENVOLVEDORA
+    // --------------------------------------
+
+    if (
+        game.developers &&
+        game.developers.length > 0
+    ) {
+
+        modalGameDeveloper.textContent =
+            game.developers
+                .map(
+                    developer =>
+                        developer.name
+                )
+                .join(", ");
+
+    } else {
+
+        modalGameDeveloper.textContent =
+            "Não informado";
+
+    }
+
+
+    // --------------------------------------
+    // SITE OFICIAL
+    // --------------------------------------
+
+    if (game.website) {
+
+        officialSiteButton.href =
+            game.website;
+
+    } else {
+
+        officialSiteButton.href =
+            "#";
+
+    }
+
+
+    // --------------------------------------
+    // FAVORITO
+    // --------------------------------------
+
+    updateModalFavoriteButton();
 
 }
 
